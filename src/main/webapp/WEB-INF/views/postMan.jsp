@@ -34,6 +34,8 @@
 						<li><a class="dropdown-item" id="insertMethod" href="#">Get</a></li>
 						<li><a class="dropdown-item" id="insertMethod" href="#">Update</a></li>
 						<li><a class="dropdown-item" id="insertMethod" href="#">Delete</a></li>
+			            <li><a class="dropdown-item" id="insertMethod" href="#">getById</a></li>
+					
 					</ul>
 				</div>
 
@@ -54,7 +56,7 @@
 	<div class="container"
 		style="justify-content: center; align-items: center; margin-left: 800px; margin-top: 100px;">
 		<form id="addStudent">
-			<!--  <input type="hidden" value="9" id="userr" /> -->
+			  <input type="hidden" value="${studentId}" id="userr" /> 
 			<label for="jsonData">Enter JSON Data:</label><br>
 			<textarea id="jsonData" name="jsonData" rows="4" cols="50"></textarea>
 			<br>
@@ -123,7 +125,6 @@
 	    }
 	    
 	    if (httpMethod === "get") {
-	    	alert("get amethof/d csllig"); 
 
 	    	 $.ajax({
 	             type: 'GET',
@@ -141,29 +142,62 @@
 	         });
 	     }
 	    
-	   /*  if (httpMethod === 'update') {
-	    	 var studentId = document.getElementById("userr").value;
+	    if (httpMethod === 'update') {
+	    	 var studentIdd = document.getElementById("userInput").value;
 	    	 var studentData = JSON.parse(jsonData);
 	        $.ajax({
 	            type: 'PUT',
-	            url: 'update/' + studentId,	
+	            url: 'update/' + studentIdd,	
 	            contentType: 'application/json',
 	            Accept: 'application/json',
 	            data: JSON.stringify(studentData),
 	            success: function(response) {
-	                console.log("User Added Successfully")
+	                console.log("User updated Successfully")
 	                
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error:', error);
-	                alert('Failed to send data. Please try again.');
+	                alert('User updated Successfully');
+	                
 	            }
 	        });
 	    }
 	    
-	     */
+	    if (httpMethod === "delete") {
+	    	 var studentIdd = document.getElementById("userInput").value;
+	    	$.ajax({
+	            type: 'DELETE',
+	            url: 'delete/' + studentIdd,	
+	            success: function(response) {
+	                console.log("User Deleted Successfully");
+	                alert("User Deleted Successfully")
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error:", error);
+	                alert("User Deleted Successfully")
+	  	             
+	            }
+	        });
+	    }
 	    
-	    
+	    if (httpMethod === "getbyid") {
+	    	 var studentIdd = document.getElementById("userInput").value;
+	    	 $.ajax({
+	             type: 'GET',
+	             url: 'getStudentById/' + studentIdd,
+	             contentType: 'application/json',
+	             dataType: 'json',
+	             success: function(response) {
+	                 const studentsData = JSON.stringify(response, null, 2);
+	                 $('#jsonData').val(studentsData);
+	                 console.log("Students fetched successfully");
+	             },
+	             error: function(xhr, status, error) {
+	                 console.error('Error:', error);
+	                 alert("Student Not Present");
+	             }
+	         });
+	    }
 	    
 	}
 		

@@ -8,6 +8,7 @@ import org.omg.CORBA.portable.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,77 +34,86 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 
-	
 	@RequestMapping("/")
-	public String PostMan(){
-          return "postMan";
-	
-	}
-	
-	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String getStudents(Student student)
-	{	
-		System.out.print("controller of studentlist =========");
-	//	String Type=request.getParameter("Type");
-        String students = studentService.getAllStudents();
-        System.out.println("data================"+students);
-        
+	public String PostMan() {
+		return "postMan";
 
-    //    model.addAttribute("studentlist",students);
-        return students;
-        
-    }
-		  
+	}
+
+	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String getStudents(Student student) {
+		System.out.print("controller of studentlist =========");
+		// String Type=request.getParameter("Type");
+		String students = studentService.getAllStudents();
+		System.out.println("data================" + students);
+
+		// model.addAttribute("studentlist",students);
+		return students;
+
+	}
 
 	@PostMapping("/insertStudent")
-    public String addStudent(@RequestBody String jsonData)
-	{
-        ObjectMapper objectMapper = new ObjectMapper();
-        Student student = null;
-        try {
-            student = objectMapper.readValue(jsonData, Student.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
-        String Type = "insert";
-        System.out.println("insert controller called");
-        studentService.insertUser(student, Type, student.getId(), student.getName(), student.getCity(), student.getSalary());
-        return "postMan";
-    }
-	
-	/*
-	 * @PutMapping(value="/update/{id}", produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public String
-	 * updateStudentDetails(@PathVariable("id") long id,@RequestBody String
-	 * jsonData,Model model) {
-	 * 
-	 * ObjectMapper objectMapper = new ObjectMapper(); Student student = null; try {
-	 * student = objectMapper.readValue(jsonData, Student.class); } catch (Exception
-	 * e) { e.printStackTrace(); return "error"; } String Type = "update";
-	 * System.out.println("called UpdateStudent controller"); Student user =
-	 * studentService.updateStudent(student,Type,id,student.getName(),student.
-	 * getCity(), student.getSalary()); model.addAttribute("user",user); return
-	 * "postMan";
-	 * 
-	 * }
-	 */
+	public String addStudent(@RequestBody String jsonData) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Student student = null;
+		try {
+			student = objectMapper.readValue(jsonData, Student.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		String Type = "insert";
+		System.out.println("insert controller called");
+		studentService.insertUser(student, Type, student.getId(), student.getName(), student.getCity(),
+				student.getSalary());
+		return "postMan";
+	}
 
-	    
+	@PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String updateStudentDetails(@PathVariable("id") long id, @RequestBody String jsonData, Model model) {
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		Student student = null;
+		try {
+			student = objectMapper.readValue(jsonData, Student.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+
+		String Type = "update";
+		System.out.println("called UpdateStudent controller");
+		studentService.updateStudent(student, Type, student.getId(), student.getName(), student.getCity(),
+				student.getSalary());
+
+		return "postMan";
+
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public String delete(@PathVariable("id") long id) {
+		System.out.println("deleted controlled");
+		studentService.deleteStudent(id);
+
+		return "postMan";
+
+	}
+
+	@GetMapping(value = "/getStudentById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String getStudentById(@PathVariable("id") long id) {
+
+		System.out.println("called GetByID controller");
+        String retriveStudent = studentService.getStudentById(id);
+        return retriveStudent;
+
+	}
+	
+	
+
 	/*
-	 * @GetMapping("/getStudent/{id}") public String
-	 * getStudentById(@PathVariable("id") long id, Model model) {
-	 * 
-	 * String Type = "getById"; System.out.println("called GetByID controller");
-	 * 
-	 * Optional<Student> retriveStudent = studentService.getStudentById(Type, id);
-	 * model.addAttribute("SpecificStudentt", retriveStudent.orElse(null));
-	 * 
-	 * return "specificStudent";
-	 * 
-	 * }
-	 * 
 	 * @GetMapping("/editStudent/{id}") public String
 	 * editStudentById(@PathVariable("id") Long id, Model model) {
 	 * 
@@ -117,17 +127,6 @@ public class StudentController {
 	 * 
 	 * 
 	 * 
-	 * @GetMapping("/delete/{id}")
-	 * 
-	 * public RedirectView delete(@PathVariable("id") long id,HttpServletRequest
-	 * request) { System.out.println("deleted controlled"); String Type="delete";
-	 * studentService.deleteStudent(Type,id);
-	 * 
-	 * RedirectView redirectView = new RedirectView();
-	 * redirectView.setUrl(request.getContextPath() + "/"); return redirectView;
-	 * 
-	 * 
-	 * }
 	 */
 
 }

@@ -11,34 +11,34 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Student")
 
-/*
- * @NamedStoredProcedureQueries({
- * 
- * @NamedStoredProcedureQuery( name = "CrudCallProcedureFromProcedure",
- * procedureName = "CrudCallProcedureFromProcedure",
- * 
- * parameters = {
- * 
- * @StoredProcedureParameter(mode = ParameterMode.IN, name = "Type", type =
- * String.class),
- * 
- * @StoredProcedureParameter(mode = ParameterMode.IN, name = "id", type =
- * Long.class),
- * 
- * @StoredProcedureParameter(mode = ParameterMode.IN, name = "name", type =
- * String.class),
- * 
- * @StoredProcedureParameter(mode = ParameterMode.IN, name = "city", type =
- * String.class),
- * 
- * @StoredProcedureParameter(mode = ParameterMode.IN, name = "salary", type =
- * Integer.class)
- * 
- * } )
- * 
- * 
- * })
- */
+
+  @NamedStoredProcedureQueries({
+  
+  @NamedStoredProcedureQuery( name = "CrudCallProcedureFromProcedure",
+  procedureName = "CrudCallProcedureFromProcedure",
+  
+  parameters = {
+  
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "Type", type =
+  String.class),
+  
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "id", type =
+  Long.class),
+  
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "name", type =
+  String.class),
+  
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "city", type =
+  String.class),
+  
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "salary", type =
+  Integer.class)
+  
+  } )
+  
+  
+  })
+ 
 
 public class Student {
 
